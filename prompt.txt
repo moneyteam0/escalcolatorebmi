@@ -1,0 +1,35 @@
+Crea un'applicazione web per un Calcolatore BMI in HTML, CSS e PHP basata sulle seguenti specifiche tecniche, fornendo sia i file sorgente che una demo web interattiva funzionante in un unico file per l'anteprima.
+ 1. File form.html
+Titolo h1: "Calcolatore BMI"
+Tag <form> con method="post" e action="bmi.php"
+Tre campi input obbligatori (required) con rispettiva <label>:
+   Nome (type="text")
+   Peso in kg (type="number", ammessi decimali con step="0.1")
+   Altezza in cm (type="number")
+- Pulsante di invio <button> con testo "Calcola"
+
+ 2. File stile.css (Stile comune)
+Sfondo pagina: #F1F3F5, colore testo: #1F2328
+Font: sans-serif
+Layout: contenuto centrato verticalmente e orizzontalmente
+Container/Card principale: box bianco (#ffffff), larghezza 360px, padding 24px, bordi arrotondati 12px, ombra leggera (box-shadow)
+Pulsante: sfondo #1F2328, testo bianco, bordi arrotondati 6px, larghezza 100% (larghezza piena)
+
+ 3. File bmi.php
+Recupera i dati 'nome', 'peso' e 'altezza' inviati in POST
+Calcola il BMI con la formula: peso / (altezza_in_m)^2
+Mostra una card con classe ".card" affiancata alla classe della fascia di peso corrispondente (es. <div class="card normopeso">)
+Contenuto della card:
+  Nome dell'utente
+  Dati inseriti (es. "Peso 70 kg - Altezza 178 cm")
+  Valore del BMI formattato a 2 cifre decimali (font 48px, in grassetto)
+  Nome della fascia in maiuscolo (es. NORMOPESO)
+Sotto la card: un link "Calcola di nuovo" collegato a form.html
+
+4. Le 4 Classi delle Card (Bordo 3px solido, il testo della fascia usa lo stesso colore del bordo)
+BMI < 18.5 -> .sottopeso | Sfondo: #E3EEF9 | Bordo e testo: #2F6F92
+BMI 18.5 - 24.9 -> .normopeso | Sfondo: #E3F4E6 | Bordo e testo: #256D34
+BMI 25.0 - 29.9 -> .sovrappeso | Sfondo: #FCE8D7 | Bordo e testo: #9A4F06
+BMI >= 30.0 -> .obesita | Sfondo: #F86262 | Bordo e testo: #832020
+ Formato Risposta Richiesto:
+Fornisci il codice sorgente pulito e separato per form.html, stile.css e bmi.php, e integra l'intera soluzione in una Demo Interattiva visibile direttamente a schermo.

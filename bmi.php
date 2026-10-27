@@ -1,53 +1,59 @@
 <?php
-// Legge nome, peso, altezza dalla pagina precedente
-$nome = $_POST['nome'] ?? '';
-$peso = floatval($_POST['peso'] ?? 0);
-$altezza_cm = floatval($_POST['altezza'] ?? 0);
+// Recupero e sanificazione dei dati inviati via POST
+$nome = isset($_POST['nome']) ? htmlspecialchars(trim($_POST['nome'])) : 'Utente';
+$peso = isset($_POST['peso']) ? floatval($_POST['peso']) : 0;
+$altezza_cm = isset($_POST['altezza']) ? floatval($_POST['altezza']) : 0;
 
-// Calcolo del BMI: peso / (altezza in m)^2
+// Validazione di sicurezza dati
+if ($peso <= 0 || $altezza_cm <= 0) {
+    header("Location: form.html");
+    exit;
+}
+
+// Calcolo del BMI: peso (kg) / (altezza (m))^2
 $altezza_m = $altezza_cm / 100;
-$bmi = ($altezza_m > 0) ? $peso / ($altezza_m * $altezza_m) : 0;
-$bmi_formatted = number_format($bmi, 2, '.', '');
+$bmi = $peso / ($altezza_m * $altezza_m);
 
-// Determinazione della classe e della fascia
+// Formattazione del valore a 2 cifre decimali
+$bmi_formattato = number_format($bmi, 2, '.', '');
+
+// Determinazione della fascia di peso, della classe CSS e della descrizione
 if ($bmi < 18.5) {
-    $classe = 'sottopeso';
-    $fascia = 'SOTTOPESO';
-} elseif ($bmi < 25) {
-    $classe = 'normopeso';
-    $fascia = 'NORMOPESO';
-} elseif ($bmi < 30) {
-    $classe = 'sovrappeso';
-    $fascia = 'SOVRAPPESO';
-} else {
-    $classe = 'obesita';
-    $fascia = 'OBESITÀ';
+    $classe = "sottopeso";
+    $fascia = "SOTTOPESO";
+} elseif ($bmi >= 18.5 && $bmi < 25.0) {
+    $classe = "normopeso";
+    $fascia = "NORMOPESO";
+} elseif ($bmi >= 25.0 && $bmi < 30.0) {
+    $classe = "sovrappeso";
+    $fascia = "SOVRAPPESO";
+} else { // $bmi >= 30.0
+    $classe = "obesita";
+    $fascia = "OBESITÀ";
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il tuo BMI</title>
+    <title>Risultato BMI</title>
     <link rel="stylesheet" href="stile.css">
 </head>
 <body>
 
-    <div class="box-container">
-        <h1>Il tuo BMI</h1>
-
-        <div class="card <?php echo $classe; ?>">
-            <div class="nome-utente"><?php echo htmlspecialchars($nome); ?></div>
-            <div class="dati-utente">Peso <?php echo $peso; ?> kg - Altezza <?php echo $altezza_cm; ?> cm</div>
-            <div class="bmi-number"><?php echo $bmi_formatted; ?></div>
-            <div class="fascia"><?php echo $fascia; ?></div>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="form.html" class="link-riprova">Calcola di nuovo</a>
-        </div>
+    <!-- Card con classe ".card" affiancata alla classe della fascia corrispondente -->
+    <div class="card <?php echo $classe; ?>">
+        <div class="user-name"><?php echo $nome; ?></div>
+        <div class="user-data">Peso <?php echo $peso; ?> kg - Altezza <?php echo $altezza_cm; ?> cm</div>
+        <div class="bmi-value"><?php echo $bmi_formattato; ?></div>
+        <div class="fascia-name"><?php echo $fascia; ?></div>
     </div>
+
+    <!-- Sotto la card: link "Calcola di nuovo" collegato a form.html -->
+    <a href="form.html" class="back-link">Calcola di nuovo</a>
 
 </body>
 </html>
