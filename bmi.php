@@ -1,4 +1,11 @@
 <?php
+
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+    header("Location: form.html");
+}
+
+
+
 // Recupero e sanificazione dei dati inviati via POST
 $nome = isset($_POST['nome']) ? htmlspecialchars(trim($_POST['nome'])) : 'Utente';
 $peso = isset($_POST['peso']) ? floatval($_POST['peso']) : 0;
